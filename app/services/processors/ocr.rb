@@ -3,8 +3,15 @@ module Processors
     include Hydra::Derivatives::Processors::ShellBasedProcessor
 
     def self.encode(path, options, output_file)
-      execute "tesseract #{path} #{output_file.gsub('.hocr', '')}" \
-      " #{options[:options]} hocr"
+      root_file = output_file.gsub('.xml', '')
+      hocr_file = "#{root_file}.hocr"
+      alto_file = "#{root_file}.tmp.xml"
+      execute "tesseract #{path} #{root_file} #{options[:options]} hocr"
+      execute "java -classpath \"#{Rails.root.join('lib', 'Saxon-HE.jar')}\"" \
+              " net.sf.saxon.Transform -s:#{hocr_file}" \
+              " -xsl:#{Rails.root.join('lib', 'hocr2alto2.0.xsl')}" \
+              " -o:#{alto_file}"
+      execute "xmllint #{alto_file} --format > #{output_file}"
     end
 
     def options_for(_format)
