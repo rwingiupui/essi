@@ -71,7 +71,7 @@ configure_blacklight do |config|
                            label: 'Date Created', limit: true
     config.add_facet_field solr_name('num_pages', :facetable, type: :integer),
                            sort: 'index', label: 'Pages', limit: true
-    config.add_facet_field solr_name('word_boundary'), label: 'Word Boundary', limit:true
+    config.add_facet_field solr_name('word_boundary', :facetable), label: 'Word Boundary', limit:true
     config.add_facet_field solr_name('member_of_collection_ids', :symbol),
                            limit: true, label: 'Collections', helper_method: :collection_title_by_id
     config.add_facet_field 'workflow_state_name_ssim', label: 'State'
@@ -111,7 +111,7 @@ configure_blacklight do |config|
     config.add_index_field solr_name("embargo_release_date", :stored_sortable, type: :date), label: "Embargo release date", helper_method: :human_readable_date
     config.add_index_field solr_name("lease_expiration_date", :stored_sortable, type: :date), label: "Lease expiration date", helper_method: :human_readable_date
     config.add_index_field solr_name('num_pages', :facetable, type: :integer), label: 'Pages'
-    config.add_index_field solr_name('word_boundary'), label: 'Word Boundary'
+    config.add_index_field solr_name('word_boundary', :stored_searchable), label: 'Word Boundary'
     config.add_index_field 'workflow_state_name_ssim', label: 'State'
 
     # solr fields to be displayed in the show (single result) view
@@ -135,7 +135,7 @@ configure_blacklight do |config|
     config.add_show_field solr_name("format", :stored_searchable)
     config.add_show_field solr_name("identifier", :stored_searchable)
     config.add_show_field solr_name('num_pages', :facetable, type: :integer)
-    config.add_show_field solr_name('word_boundary')
+    config.add_show_field solr_name('word_boundary', :stored_searchable)
     config.add_show_field 'workflow_state_name_ssim', label: 'State'
 
     # "fielded" search configuration. Used by pulldown among other places.
