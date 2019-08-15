@@ -53,7 +53,12 @@ module ESSI
           # TO-DO We need an equivalent thing to return from word boundaries file
           # NewspaperWorks::Data::WorkDerivatives.new(file_set_id).data('json')
           # TO-DO solrize this, then get it from solr
-          FileSet.find(file_set_id)&.extracted_text&.content
+          #FileSet.find(file_set_id)&.extracted_text&.content
+
+          # Not sure which of the two doc lines to use, I think the second "doc" is correct
+          document["word_boundary_tesim"]
+          #  The doc below is declared in app/models/file_set.rb in def to_solr(solr_doc = {}) method
+          doc["word_boundary_tesim"]
         end
 
         # converts a word_boundaries Hash into annotation coordinates
